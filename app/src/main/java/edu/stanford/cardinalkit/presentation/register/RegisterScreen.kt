@@ -47,7 +47,7 @@ fun RegisterScreen(
                     IconButton(onClick = {
                         navController.navigate(Screens.RegisterMethod.route)
                     }) {
-                        Icon(Icons.Filled.ArrowBack, "back Icon")
+                        Icon(Icons.Filled.ArrowBack, "back icon")
                     }
                 },
                 colors = TopAppBarDefaults.smallTopAppBarColors()
@@ -141,7 +141,7 @@ fun RegisterScreen(
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Text(
-                        text = "Your password should contain:\n- a minimum of 8 characters\n- at least 1 uppercase\n- at least 1 lowercase\n- 1 digit\n- 1 special character"
+                        text = stringResource(R.string.password_complexity_instructions)
                     )
                 }
                 OutlinedTextField(
@@ -206,6 +206,7 @@ fun RegisterScreen(
                 ) {
                     Button(
                         onClick = {
+                            var errorMessage = ""
                             if (email.isEmpty() or password.isEmpty() or confirm.isEmpty()) {
                                 Toast.makeText(
                                     context,
@@ -213,7 +214,11 @@ fun RegisterScreen(
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else if (!viewModel.isValidEmail(email)) {
-                                Toast.makeText(context, "Enter valid email", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    context,
+                                    R.string.email_validation_error,
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             } else if (password != confirm) {
                                 Toast.makeText(
@@ -225,33 +230,33 @@ fun RegisterScreen(
                                 if (password.length < 8) {
                                     Toast.makeText(
                                         context,
-                                        "Password has to be at least 8 characters",
+                                        R.string.password_length_validation_error,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else if (password.firstOrNull { it.isDigit() } == null) {
                                     Toast.makeText(
                                         context,
-                                        "Password has to contain 1 digit",
+                                        R.string.password_digits_validation_error,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else if (password.filter { it.isLetter() }
                                         .filter { it.isUpperCase() }.firstOrNull() == null) {
                                     Toast.makeText(
                                         context,
-                                        "Password has to contain 1 uppercase",
+                                        R.string.password_uppercase_validation_error,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else if (password.filter { it.isLetter() }
                                         .filter { it.isLowerCase() }.firstOrNull() == null) {
                                     Toast.makeText(
                                         context,
-                                        "Password has to contain 1 lowercase",
+                                        R.string.password_lowercase_validation_error,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else if (password.firstOrNull { !it.isLetterOrDigit() } == null) {
                                     Toast.makeText(
                                         context,
-                                        "Password has to contain a special character",
+                                        R.string.password_special_character_validation_error,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
